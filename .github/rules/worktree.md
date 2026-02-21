@@ -1,49 +1,16 @@
 # Git Worktree ルール
 
-## 作成場所
+## 制約
 
-worktree は必ず **`.worktrees/` ディレクトリ配下**に作成する。
+- worktree は必ず **`.worktrees/`** ディレクトリ配下に作成する（ワークスペース外は禁止）
+- `.worktrees/` は `.gitignore` に登録済み
+- worktree 名はブランチ名からプレフィックス（`nanikasheila/`）を除いた部分を使う
+- 入れ子ブランチのサブブランチは、親ブランチの worktree 内で `git branch` して作成する
+- マージ後は worktree → ローカルブランチ → リモート参照の順に削除する
 
-```bash
-# 正しい
-git worktree add .worktrees/<branch-name> <branch-name>
+## 手順
 
-# 間違い（ワークスペース外に作成してはいけない）
-git worktree add ../worktrees/<branch-name> <branch-name>
-```
+具体的な操作手順は以下のスキルを参照:
 
-`.worktrees/` は `.gitignore` に登録済み。
-
-## worktree 名
-
-ブランチ名からプレフィックス（`nanikasheila/`）を除いた部分を使う。
-
-```bash
-# ブランチ: nanikasheila/sc-18-chore-rules-and-skills
-# worktree: .worktrees/sc-18-chore-rules-and-skills
-git worktree add .worktrees/sc-18-chore-rules-and-skills nanikasheila/sc-18-chore-rules-and-skills
-```
-
-## 入れ子ブランチの worktree
-
-親ブランチからサブブランチを切る場合:
-
-```bash
-# 親の worktree に移動してサブブランチを作成
-cd .worktrees/sc-14-feat-parent
-git branch nanikasheila/sc-15-feat-sub-a
-cd ../..
-
-# サブブランチの worktree を作成
-git worktree add .worktrees/sc-15-feat-sub-a nanikasheila/sc-15-feat-sub-a
-```
-
-## クリーンアップ
-
-マージ後は worktree → ローカルブランチ → リモート参照の順に削除:
-
-```bash
-git worktree remove .worktrees/<branch-name>
-git branch -D <branch-name>
-git fetch --prune
-```
+- 作成: `prompts/new-feature.prompt.md`
+- 削除: `prompts/cleanup.prompt.md`

@@ -1,10 +1,11 @@
 ---
-description: "PR マージ時のコンフリクトを解消する"
+name: resolve-conflict
+description: PR マージ時のコンフリクトを解消する。マージが 405 エラーで失敗した場合に使用する。
 ---
 
 # コンフリクト解消
 
-PR マージが `405 Pull Request is not mergeable` で失敗した場合に使用してください。
+PR マージが `405 Pull Request is not mergeable` で失敗した場合に使用する。
 
 ## 手順
 

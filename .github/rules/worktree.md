@@ -12,5 +12,5 @@
 
 具体的な操作手順は以下のスキルを参照:
 
-- 作成: `prompts/new-feature.prompt.md`
-- 削除: `prompts/cleanup.prompt.md`
+- 作成: `skills/new-feature/`
+- 削除: `skills/cleanup/`

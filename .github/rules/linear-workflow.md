@@ -25,5 +25,5 @@
 
 具体的な操作手順は以下のスキルを参照:
 
-- Issue 作成: `prompts/new-feature.prompt.md`
-- ステータス更新: `prompts/cleanup.prompt.md`
+- Issue 作成: `skills/new-feature/`
+- ステータス更新: `skills/cleanup/`

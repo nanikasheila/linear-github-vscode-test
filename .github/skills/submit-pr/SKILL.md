@@ -1,16 +1,15 @@
 ---
-description: "変更をコミットし、PR を作成してマージする"
+name: submit-pr
+description: 変更をコミットし、PR を作成してマージする。worktree での変更が完了した後に使用する。
 ---
 
 # PR 提出・マージ
 
-worktree での変更が完了した後、以下の手順でコミットから PR マージまでを実行してください。
-
 ## 入力
 
 - 対象ブランチ名
-- Linear Issue ID（例: `SC-18`）
-- マージ先（`main` またはの親ブランチ名）
+- Linear Issue ID（例: `SC-20`）
+- マージ先（`main` または親ブランチ名）
 
 ## 手順
 
@@ -53,4 +52,4 @@ mcp_io_github_git_merge_pull_request:
 
 ### 5. マージ失敗時（コンフリクト）
 
-コンフリクトが発生した場合は `resolve-conflict` スキルを使用してください。
+コンフリクトが発生した場合は `resolve-conflict` スキルを使用する。

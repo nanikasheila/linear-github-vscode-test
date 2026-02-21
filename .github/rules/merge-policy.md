@@ -17,4 +17,4 @@
 1. サブブランチ → 親ブランチ（base = 親ブランチ）
 2. 親ブランチ → main（base = main）
 
-具体的な手順は `prompts/nested-merge.prompt.md` を参照。
+具体的な手順は `skills/nested-merge/` を参照。

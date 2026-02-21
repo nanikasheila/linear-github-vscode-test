@@ -1,14 +1,13 @@
 ---
-description: "Linear Issue を作成し、ブランチと worktree を準備する"
+name: new-feature
+description: Linear Issue を作成し、ブランチと worktree を準備して新規作業を開始する。ユーザーが新しいタスクや機能の作業を始めたいときに使用する。
 ---
 
 # 新規フィーチャー開始
 
-以下の手順で新しい作業を開始してください。
-
 ## 入力
 
-ユーザーが作業内容を説明します。以下を判断してください:
+ユーザーが作業内容を説明する。以下を判断:
 - Issue タイトル（`<type>: <説明>` 形式）
 - ブランチ名（`nanikasheila/sc-<番号>-<type>-<説明>`）
 - 親 Issue がある場合はその ID
@@ -27,7 +26,7 @@ mcp_my-mcp-server_create_issue:
   parentId: "<親IssueのID（ある場合）>"
 ```
 
-返却された `identifier`（例: `SC-18`）を記録する。
+返却された `identifier`（例: `SC-20`）を記録する。
 
 ### 2. ブランチを作成
 

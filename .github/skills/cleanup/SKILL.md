@@ -1,10 +1,11 @@
 ---
-description: "マージ完了後のクリーンアップ処理を実行する"
+name: cleanup
+description: マージ完了後のクリーンアップ処理を実行する。worktree、ローカルブランチ、Linear Issue の整理を行うときに使用する。
 ---
 
 # クリーンアップ
 
-PR マージ後に worktree、ローカルブランチ、Linear Issue を整理してください。
+PR マージ後に worktree、ローカルブランチ、Linear Issue を整理する。
 
 ## 入力
 

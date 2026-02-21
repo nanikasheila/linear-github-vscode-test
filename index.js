@@ -44,6 +44,9 @@ const { reverse, capitalize, truncate } = require("./string");
 // array モジュールの読み込み
 const { unique, flatten, chunk } = require("./array");
 
+// validator モジュールの読み込み
+const { isEmail, isPositive, isInRange } = require("./validator");
+
 // テスト実行
 console.log("=== 挨拶テスト ===");
 console.log(greet("Linear"));
@@ -70,3 +73,12 @@ console.log(`truncate("こんにちは世界", 5) = ${truncate("こんにちは�
 console.log(`unique([1,2,2,3]) = ${JSON.stringify(unique([1, 2, 2, 3]))}`);
 console.log(`flatten([[1,2],[3,[4]]]) = ${JSON.stringify(flatten([[1, 2], [3, [4]]]))}`);
 console.log(`chunk([1,2,3,4,5], 2) = ${JSON.stringify(chunk([1, 2, 3, 4, 5], 2))}`);
+
+// validator モジュールのテスト
+console.log(`\n=== バリデーションテスト ===`);
+console.log(`isEmail("test@example.com") = ${isEmail("test@example.com")}`);
+console.log(`isEmail("invalid") = ${isEmail("invalid")}`);
+console.log(`isPositive(5) = ${isPositive(5)}`);
+console.log(`isPositive(-3) = ${isPositive(-3)}`);
+console.log(`isInRange(5, 1, 10) = ${isInRange(5, 1, 10)}`);
+console.log(`isInRange(15, 1, 10) = ${isInRange(15, 1, 10)}`);

@@ -1,0 +1,23 @@
+{
+  "name": "linear-github-vscode-test",
+  "version": "1.0.0",
+  "description": "Linear × GitHub × VSCode 連携テスト用リポジトリ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"テストを実行\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nanikasheila/linear-github-vscode-test.git"
+  },
+  "keywords": [
+    "linear",
+    "github",
+    "vscode",
+    "integration",
+    "test"
+  ],
+  "author": "nanikasheila",
+  "license": "MIT"
+}

@@ -47,6 +47,9 @@ const { unique, flatten, chunk } = require("./array");
 // validator モジュールの読み込み
 const { isEmail, isPositive, isInRange } = require("./validator");
 
+// formatter モジュールの読み込み
+const { padStart, formatNumber, formatDate } = require("./formatter");
+
 // テスト実行
 console.log("=== 挨拶テスト ===");
 console.log(greet("Linear"));
@@ -82,3 +85,10 @@ console.log(`isPositive(5) = ${isPositive(5)}`);
 console.log(`isPositive(-3) = ${isPositive(-3)}`);
 console.log(`isInRange(5, 1, 10) = ${isInRange(5, 1, 10)}`);
 console.log(`isInRange(15, 1, 10) = ${isInRange(15, 1, 10)}`);
+
+// formatter モジュールのテスト
+console.log(`\n=== フォーマットテスト ===`);
+console.log(`padStart(42, 5) = ${padStart(42, 5)}`);
+console.log(`formatNumber(1234567) = ${formatNumber(1234567)}`);
+console.log(`formatDate(new Date(2026, 1, 21)) = ${formatDate(new Date(2026, 1, 21))}`);
+

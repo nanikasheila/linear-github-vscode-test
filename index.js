@@ -44,6 +44,9 @@ const { reverse, capitalize, truncate } = require("./string");
 // array モジュールの読み込み
 const { unique, flatten, chunk } = require("./array");
 
+// formatter モジュールの読み込み
+const { padStart, formatNumber, formatDate } = require("./formatter");
+
 // テスト実行
 console.log("=== 挨拶テスト ===");
 console.log(greet("Linear"));
@@ -70,3 +73,9 @@ console.log(`truncate("こんにちは世界", 5) = ${truncate("こんにちは�
 console.log(`unique([1,2,2,3]) = ${JSON.stringify(unique([1, 2, 2, 3]))}`);
 console.log(`flatten([[1,2],[3,[4]]]) = ${JSON.stringify(flatten([[1, 2], [3, [4]]]))}`);
 console.log(`chunk([1,2,3,4,5], 2) = ${JSON.stringify(chunk([1, 2, 3, 4, 5], 2))}`);
+
+// formatter モジュールのテスト
+console.log(`\n=== フォーマットテスト ===`);
+console.log(`padStart(42, 5) = ${padStart(42, 5)}`);
+console.log(`formatNumber(1234567) = ${formatNumber(1234567)}`);
+console.log(`formatDate(new Date(2026, 1, 21)) = ${formatDate(new Date(2026, 1, 21))}`);

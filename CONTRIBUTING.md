@@ -144,3 +144,41 @@ feat: mathモジュールの追加 (SC-6)
 | 親 → main | `main` | `nanikasheila/sc-14-feat-parent` |
 
 サブブランチの PR がすべてマージされてから、親ブランチの PR を main にマージします。
+
+## ブランチのクリーンアップ
+
+### リモートブランチの自動削除
+
+GitHub リポジトリの設定で「**Automatically delete head branches**」が有効になっています。
+PR をマージすると、マージ元のリモートブランチが自動的に削除されます。
+
+### ローカルブランチのクリーンアップ
+
+マージ後、ローカルに残ったブランチやworktreeも削除してください：
+
+```bash
+# worktree の削除
+git worktree remove .worktrees/<ブランチ名>
+
+# ローカルブランチの削除
+git branch -D <ブランチ名>
+
+# 削除済みリモートブランチの参照を整理
+git fetch --prune
+```
+
+### マージ済みブランチの一括削除
+
+ブランチが溢れてしまった場合は、マージ済みブランチを一括で削除できます：
+
+```bash
+# マージ済みリモートブランチを一括削除
+git branch -r --merged main | grep 'origin/' | grep -v 'main' | \
+  sed 's|origin/||' | xargs git push origin --delete
+
+# ローカルのマージ済みブランチも削除
+git branch --merged main | grep -v 'main' | xargs git branch -D
+
+# リモート参照を整理
+git fetch --prune
+```

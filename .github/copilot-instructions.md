@@ -35,3 +35,16 @@ git worktree add .worktrees/sc-15-feat-sub-a nanikasheila/sc-15-feat-sub-a
 
 分岐履歴を残すため、PR マージには merge commit（`--no-ff`）を使用する。squash merge は使わない。
 GitHub API で `merge_method: "merge"` を指定する。
+
+## ブランチのクリーンアップ
+
+GitHub リポジトリの「Automatically delete head branches」が有効のため、PR マージ時にリモートブランチは自動削除される。
+
+マージ後は、ローカルの worktree とブランチも削除すること。
+
+```bash
+# worktree 削除 → ローカルブランチ削除 → リモート参照整理
+git worktree remove .worktrees/<branch-name>
+git branch -D <branch-name>
+git fetch --prune
+```

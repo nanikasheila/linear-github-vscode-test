@@ -22,6 +22,9 @@ function add(a, b) {
 // math モジュールの読み込み
 const { subtract, multiply, divide, power, modulo } = require("./math");
 
+// string モジュールの読み込み
+const { reverse, capitalize, truncate } = require("./string");
+
 // テスト実行
 console.log(greet("Linear"));
 console.log(`1 + 2 = ${add(1, 2)}`);
@@ -32,3 +35,8 @@ console.log(`10 ÷ 2 = ${divide(10, 2)}`);
 // math 追加関数のテスト
 console.log(`2 ^ 10 = ${power(2, 10)}`);
 console.log(`17 % 5 = ${modulo(17, 5)}`);
+
+// string モジュールのテスト
+console.log(`reverse("hello") = ${reverse("hello")}`);
+console.log(`capitalize("world") = ${capitalize("world")}`);
+console.log(`truncate("こんにちは世界", 5) = ${truncate("こんにちは世界", 5)}`);

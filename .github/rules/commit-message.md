@@ -1,10 +1,13 @@
+````markdown
 # コミットメッセージ規約
 
 ## フォーマット
 
 ```
-<type>: <説明> (SC-<番号>)
+<type>: <説明> (<prefix>-<番号>)
 ```
+
+`<prefix>` は `.github/settings.json` の `issueTracker.prefix` を使用する。
 
 ## Type 一覧
 
@@ -19,12 +22,14 @@
 
 ## Issue トラッカー連携
 
-コミットメッセージに Issue ID（例: `SC-<番号>`）を含めると、Issue トラッカーに自動リンクされる。
+コミットメッセージに Issue ID（例: `<prefix>-<番号>`）を含めると、Issue トラッカーに自動リンクされる。
 
 ## 例
 
 ```
-feat: mathモジュールの追加 (SC-6)
-docs: ブランチクリーンアップ手順を追記 (SC-17)
-merge: resolve conflict with SC-15 validator in index.js (SC-16)
+feat: 新機能の追加 (<prefix>-6)
+docs: ドキュメント更新 (<prefix>-17)
+merge: resolve conflict with <branch> (<prefix>-16)
 ```
+
+````

@@ -1,18 +1,29 @@
+````skill
 ---
 name: cleanup
-description: マージ完了後のクリーンアップ処理を実行する。worktree、ローカルブランチ、Linear Issue の整理を行うときに使用する。
+description: マージ完了後のクリーンアップ処理を実行する。worktree、ローカルブランチ、Issue の整理を行うときに使用する。
 ---
 
 # クリーンアップ
 
-PR マージ後に worktree、ローカルブランチ、Linear Issue を整理する。
+PR マージ後に worktree、ローカルブランチ、Issue を整理する。
+
+## 前提
+
+`.github/settings.json` からプロジェクト設定を読み取って使用する。
 
 ## 入力
 
 - 対象ブランチ名（複数可）
-- Linear Issue ID（複数可）
+- Issue ID（複数可）
 
 ## 手順
+
+### 0. 設定読み込み
+
+`.github/settings.json` を読み取り、以下の値を使用する:
+- `issueTracker.provider` — Issue トラッカー種別
+- `issueTracker.mcpServer` — MCP サーバー名
 
 ### 1. Worktree の削除
 
@@ -39,11 +50,13 @@ git checkout main
 git pull origin main
 ```
 
-### 5. Linear Issue のステータス更新
+### 5. Issue のステータス更新
+
+`issueTracker.provider` が `"none"` の場合はこのステップをスキップする。
 
 ```
-mcp_my-mcp-server_update_issue:
-  id: "SC-<番号>"
+mcp_<issueTracker.mcpServer>_update_issue:
+  id: "<prefix>-<番号>"
   state: "Done"
 ```
 
@@ -73,3 +86,5 @@ git branch -r --merged main | grep 'origin/' | grep -v 'main' | \
 git branch --merged main | grep -v 'main' | xargs git branch -D
 git fetch --prune
 ```
+
+````

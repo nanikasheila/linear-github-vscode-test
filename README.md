@@ -39,3 +39,17 @@ Linear、GitHub、VSCode の連携を検証するためのテストリポジト�
 - [ ] VSCode でブランチを切り替えてコードを変更する
 - [ ] PR を作成して Linear Issue との紐付けを確認する
 - [ ] PR マージ後に Linear Issue のステータスが変わることを確認する
+
+## プロジェクト構成
+
+```
+├── index.js          # メインエントリーポイント
+├── math.js           # 数学ユーティリティ（add, subtract, multiply, divide, power, modulo）
+├── string.js         # 文字列操作（reverse, capitalize, truncate）
+├── utils.js          # 汎用ユーティリティ（range, shuffle, sleep）
+├── package.json      # プロジェクト設定・scripts
+├── CONTRIBUTING.md   # コントリビューションガイド
+├── README.md         # このファイル
+└── .github/
+    └── copilot-instructions.md  # Copilot 設定
+```

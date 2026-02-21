@@ -10,6 +10,22 @@ function greet(name) {
 }
 
 /**
+ * 時間帯に応じた挨拶メッセージを返す
+ * @param {string} name - 名前
+ * @param {number} hour - 時刻（0-23）
+ * @returns {string} 挨拶メッセージ
+ */
+function greetByTime(name, hour) {
+  if (hour >= 5 && hour < 12) {
+    return `おはようございます、${name}さん！`;
+  } else if (hour >= 12 && hour < 18) {
+    return `こんにちは、${name}さん！`;
+  } else {
+    return `こんばんは、${name}さん！`;
+  }
+}
+
+/**
  * 足し算
  * @param {number} a
  * @param {number} b
@@ -29,7 +45,13 @@ const { reverse, capitalize, truncate } = require("./string");
 const { unique, flatten, chunk } = require("./array");
 
 // テスト実行
+console.log("=== 挨拶テスト ===");
 console.log(greet("Linear"));
+console.log(greetByTime("Linear", 8));   // 朝
+console.log(greetByTime("Linear", 14));  // 昼
+console.log(greetByTime("Linear", 20));  // 夜
+
+console.log("\n=== 数学テスト ===");
 console.log(`1 + 2 = ${add(1, 2)}`);
 console.log(`5 - 3 = ${subtract(5, 3)}`);
 console.log(`4 × 6 = ${multiply(4, 6)}`);

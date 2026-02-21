@@ -20,7 +20,7 @@ function add(a, b) {
 }
 
 // math モジュールの読み込み
-const { subtract, multiply, divide } = require("./math");
+const { subtract, multiply, divide, power, modulo } = require("./math");
 
 // テスト実行
 console.log(greet("Linear"));
@@ -28,3 +28,7 @@ console.log(`1 + 2 = ${add(1, 2)}`);
 console.log(`5 - 3 = ${subtract(5, 3)}`);
 console.log(`4 × 6 = ${multiply(4, 6)}`);
 console.log(`10 ÷ 2 = ${divide(10, 2)}`);
+
+// math 追加関数のテスト
+console.log(`2 ^ 10 = ${power(2, 10)}`);
+console.log(`17 % 5 = ${modulo(17, 5)}`);

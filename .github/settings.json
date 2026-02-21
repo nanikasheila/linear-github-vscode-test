@@ -1,0 +1,23 @@
+{
+  "github": {
+    "owner": "nanikasheila",
+    "repo": "linear-github-vscode-test",
+    "mergeMethod": "merge"
+  },
+  "issueTracker": {
+    "provider": "linear",
+    "mcpServer": "my-mcp-server",
+    "team": "SheilaChan",
+    "projectId": "bf5f12db-1f62-42af-9a0f-78337cb33fb2",
+    "prefix": "SC"
+  },
+  "branch": {
+    "user": "nanikasheila",
+    "format": "<user>/<prefix>-<number>-<type>-<description>"
+  },
+  "project": {
+    "name": "linear-github-vscode-test",
+    "language": "javascript",
+    "entryPoint": "index.js"
+  }
+}

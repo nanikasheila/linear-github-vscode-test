@@ -1,4 +1,19 @@
+```instructions
 # Copilot Instructions
+
+## プロジェクト設定
+
+プロジェクト固有の設定は `.github/settings.json` で管理する。
+新規プロジェクトでは `init` スキルを使って初期設定を行う。
+
+### settings.json の構造
+
+| セクション | 説明 |
+|---|---|
+| `github` | GitHub リポジトリ情報（owner, repo, mergeMethod） |
+| `issueTracker` | Issue トラッカー設定（provider, team, prefix 等） |
+| `branch` | ブランチ命名設定（user, format） |
+| `project` | プロジェクト基本情報（name, language, entryPoint） |
 
 ## .github 4層構造
 
@@ -35,9 +50,11 @@
 
 エージェントがタスク内容に応じて自動的に読み込み、手順に従って実行する。
 スキルは「どう実行するか」の**具体的手順**をパッケージ化したもの。
+すべてのスキルは `.github/settings.json` から設定を読み取る。
 
 | スキル | 用途 | 使うタイミング |
 |---|---|---|
+| `skills/init/` | プロジェクト初期設定 | `.github/` を新規プロジェクトに導入したとき |
 | `skills/new-feature/` | 新規作業開始 | Issue 作成 → ブランチ → worktree 準備 |
 | `skills/submit-pr/` | PR 提出・マージ | コミット → プッシュ → PR 作成 → マージ |
 | `skills/resolve-conflict/` | コンフリクト解消 | PR マージが失敗した場合 |
@@ -62,3 +79,5 @@
 | **粒度** | ファイル/フォルダ単位 | リポジトリ全体 | タスク単位 | 役割単位 |
 | **起動** | applyTo で自動 | 常時参照 | タスクで自動ロード | ユーザー選択 or サブエージェント |
 | **例** | コーディング規約 | squash 禁止 | PR 作成手順 | レビュー専門家 |
+
+```

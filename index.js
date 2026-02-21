@@ -25,6 +25,9 @@ const { subtract, multiply, divide, power, modulo } = require("./math");
 // string モジュールの読み込み
 const { reverse, capitalize, truncate } = require("./string");
 
+// array モジュールの読み込み
+const { unique, flatten, chunk } = require("./array");
+
 // テスト実行
 console.log(greet("Linear"));
 console.log(`1 + 2 = ${add(1, 2)}`);
@@ -40,3 +43,8 @@ console.log(`17 % 5 = ${modulo(17, 5)}`);
 console.log(`reverse("hello") = ${reverse("hello")}`);
 console.log(`capitalize("world") = ${capitalize("world")}`);
 console.log(`truncate("こんにちは世界", 5) = ${truncate("こんにちは世界", 5)}`);
+
+// array モジュールのテスト
+console.log(`unique([1,2,2,3]) = ${JSON.stringify(unique([1, 2, 2, 3]))}`);
+console.log(`flatten([[1,2],[3,[4]]]) = ${JSON.stringify(flatten([[1, 2], [3, [4]]]))}`);
+console.log(`chunk([1,2,3,4,5], 2) = ${JSON.stringify(chunk([1, 2, 3, 4, 5], 2))}`);

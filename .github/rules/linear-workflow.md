@@ -2,7 +2,8 @@
 
 ## プロジェクト
 
-すべての Issue は **linear-github-vscode-test** プロジェクトに紐付ける。
+すべての Issue は対象プロジェクトに紐付ける。
+プロジェクト固有の ID は `skills/new-feature/` スキル内で管理する。
 
 ## Issue ステータスの流れ
 
@@ -13,13 +14,13 @@
 
 ## Issue の構造化（入れ子）
 
-大きな機能を分割する場合、Linear Issue も親子関係で構造化する。
+大きな機能を分割する場合、Issue も親子関係で構造化する。
 `create_issue` の `parentId` でサブ Issue を親に紐付ける。
 
 ## GitHub 連携
 
-- PR タイトル・説明に `SC-<番号>` を含めると Linear Issue に自動リンク
-- PR の `body` に `Closes SC-<番号>` でマージ時にステータス自動変更
+- PR タイトル・説明に Issue ID を含めると Issue トラッカーに自動リンク
+- PR の `body` に `Closes <Issue ID>` でマージ時にステータス自動変更
 
 ## 手順
 

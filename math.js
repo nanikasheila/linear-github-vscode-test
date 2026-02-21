@@ -34,4 +34,27 @@ function divide(a, b) {
   return a / b;
 }
 
-module.exports = { subtract, multiply, divide };
+/**
+ * 累乗
+ * @param {number} base - 底
+ * @param {number} exponent - 指数
+ * @returns {number} 結果
+ */
+function power(base, exponent) {
+  return Math.pow(base, exponent);
+}
+
+/**
+ * 剰余（余り）
+ * @param {number} a - 被除数
+ * @param {number} b - 除数
+ * @returns {number} 余り
+ */
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error("0で割ることはできません");
+  }
+  return a % b;
+}
+
+module.exports = { subtract, multiply, divide, power, modulo };

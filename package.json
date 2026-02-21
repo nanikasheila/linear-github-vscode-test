@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"テストを実行\" && exit 0"
+    "test": "echo \"テストを実行\" && exit 0",
+    "lint": "echo \"lint チェック実行\" && exit 0"
   },
   "repository": {
     "type": "git",

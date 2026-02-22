@@ -32,9 +32,8 @@ model: Claude Sonnet 4.5 (copilot)
 
 ## テスト方法
 
-```bash
-node index.js
-```
+`.github/settings.json` の `project.language` と `project.entryPoint` に応じてテストコマンドを実行する。
+テストフレームワークがある場合はそちらを優先する。
 
 ## 禁止事項
 

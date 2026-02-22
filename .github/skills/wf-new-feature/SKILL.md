@@ -28,6 +28,7 @@ description: Issue を作成し、ブランチと worktree を準備して新規
 - `issueTracker.projectId` — プロジェクト ID
 - `issueTracker.prefix` — Issue プレフィックス（以降 `<prefix>` と表記）
 - `branch.user` — ブランチのユーザー名（以降 `<user>` と表記）
+- `branch.format` — ブランチ名のフォーマット
 
 ### 1. Issue を作成
 
@@ -43,9 +44,13 @@ mcp_<issueTracker.mcpServer>_create_issue:
   parentId: "<親IssueのID（ある場合）>"
 ```
 
-返却された `identifier`（例: `<prefix>-20`）を記録する。
+返却された以下の値を記録する:
+- `id`（UUID、例: `17ac3f2d-062a-...`）— cleanup 時の Issue 更新に必要
+- `identifier`（例: `<prefix>-20`）— コミットメッセージ・ブランチ名に使用
 
 ### 2. ブランチを作成
+
+`branch.format` に従ってブランチ名を組み立てる:
 
 ```bash
 git branch <user>/<prefix>-<番号>-<type>-<説明>
@@ -56,6 +61,8 @@ git branch <user>/<prefix>-<番号>-<type>-<説明>
 ```bash
 git worktree add .worktrees/<prefix>-<番号>-<type>-<説明> <user>/<prefix>-<番号>-<type>-<説明>
 ```
+
+> **ブランチ/worktree が既に存在する場合**: `git branch` や `git worktree add` がエラーになったら、`git branch -l` / `git worktree list` で既存の状態を確認し、不要なら削除してからリトライする。
 
 ### 4. 作業開始
 

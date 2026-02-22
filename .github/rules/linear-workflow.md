@@ -3,7 +3,7 @@
 ## プロジェクト
 
 すべての Issue は対象プロジェクトに紐付ける。
-プロジェクト固有の ID は `skills/wf-new-feature/` スキル内で管理する。
+プロジェクト ID は `.github/settings.json` の `issueTracker.projectId` で管理する。
 
 ## Issue ステータスの流れ
 

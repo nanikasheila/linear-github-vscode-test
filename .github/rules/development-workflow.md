@@ -11,19 +11,19 @@
 ## フロー概要
 
 ```
-1. Issue 起票 & Worktree 作成   → skills/new-feature/
+1. Issue 起票 & Worktree 作成   → skills/wf-new-feature/
 2. 設計
 3. 実装
 4. テスト
 5. コードレビュー               → agents/reviewer.agent.md
-6. PR 提出 & マージ             → skills/submit-pr/
+6. PR 提出 & マージ             → skills/wf-submit-pr/
 7. ドキュメント・ルール更新
-8. クリーンアップ               → skills/cleanup/
+8. クリーンアップ               → skills/wf-cleanup/
 ```
 
 ## 1. Issue 起票 & Worktree 作成
 
-- `new-feature` スキルに従い、Issue を作成しブランチ・worktree を準備する
+- `wf-new-feature` スキルに従い、Issue を作成しブランチ・worktree を準備する
 - ブランチ命名: `rules/branch-naming.md` に従う
 - worktree 配置: `rules/worktree.md` に従う
 
@@ -70,10 +70,10 @@
 
 ## 6. PR 提出 & マージ
 
-- `submit-pr` スキルに従い、コミット → プッシュ → PR 作成 → マージ
+- `wf-submit-pr` スキルに従い、コミット → プッシュ → PR 作成 → マージ
 - マージ方式: `rules/merge-policy.md` に従う
-- コンフリクト発生時: `resolve-conflict` スキルで解消
-- 入れ子ブランチ: `nested-merge` スキルでサブ → 親 → main の順序マージ
+- コンフリクト発生時: `wf-resolve-conflict` スキルで解消
+- 入れ子ブランチ: `wf-nested-merge` スキルでサブ → 親 → main の順序マージ
 
 ## 7. ドキュメント・ルール更新
 
@@ -88,5 +88,5 @@
 
 ## 8. クリーンアップ
 
-- `cleanup` スキルに従い、worktree・ブランチ・Issue を整理する
+- `wf-cleanup` スキルに従い、worktree・ブランチ・Issue を整理する
 - Issue ステータス: `rules/linear-workflow.md` に従い Done に更新

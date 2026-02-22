@@ -1,6 +1,6 @@
 ````skill
 ---
-name: init
+name: wf-init
 description: 新規プロジェクトに .github/ を導入した際の初期設定を行う。settings.json の作成とプロジェクト固有値の設定を対話的にガイドする。
 ---
 
@@ -133,8 +133,8 @@ mcp_io_github_git → リポジトリ設定の更新
 
 `issueTracker.provider` を `"none"` に設定すると:
 
-- `new-feature` スキルで Issue 作成をスキップ
-- `cleanup` スキルで Issue ステータス更新をスキップ
+- `wf-new-feature` スキルで Issue 作成をスキップ
+- `wf-cleanup` スキルで Issue ステータス更新をスキップ
 - ブランチ名から Issue プレフィックス・番号が省略可能
 
 ````

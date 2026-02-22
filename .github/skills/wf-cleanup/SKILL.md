@@ -1,6 +1,6 @@
 ````skill
 ---
-name: cleanup
+name: wf-cleanup
 description: マージ完了後のクリーンアップ処理を実行する。worktree、ローカルブランチ、Issue の整理を行うときに使用する。
 ---
 

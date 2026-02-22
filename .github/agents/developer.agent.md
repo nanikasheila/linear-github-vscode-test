@@ -25,10 +25,10 @@ model: Claude Sonnet 4.5 (copilot)
 
 ## ワークフロー
 
-1. 作業開始時は `new-feature` スキルに従い、Linear Issue → ブランチ → worktree を作成
+1. 作業開始時は `wf-new-feature` スキルに従い、Issue → ブランチ → worktree を作成
 2. worktree 内で実装を行う
-3. 完了後は `submit-pr` スキルに従い、コミット → PR → マージ
-4. `cleanup` スキルで後片付け
+3. 完了後は `wf-submit-pr` スキルに従い、コミット → PR → マージ
+4. `wf-cleanup` スキルで後片付け
 
 ## テスト方法
 

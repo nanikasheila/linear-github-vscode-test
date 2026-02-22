@@ -40,6 +40,7 @@
 
 | ファイル | 内容 |
 |---|---|
+| `rules/development-workflow.md` | 開発フロー全体の定義（設計→実装→テスト→レビュー→PR→クリーンアップ） |
 | `rules/branch-naming.md` | ブランチ命名規則 |
 | `rules/commit-message.md` | コミットメッセージ規約 |
 | `rules/merge-policy.md` | マージ方式（merge commit、squash 禁止） |

@@ -1,4 +1,3 @@
-````markdown
 # 開発ワークフロー
 
 > コーディング規約は `instructions/common.instructions.md`、各フェーズの具体的手順は `skills/` を参照。
@@ -91,5 +90,3 @@
 
 - `cleanup` スキルに従い、worktree・ブランチ・Issue を整理する
 - Issue ステータス: `rules/linear-workflow.md` に従い Done に更新
-
-````

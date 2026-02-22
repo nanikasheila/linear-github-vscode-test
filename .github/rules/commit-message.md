@@ -1,4 +1,3 @@
-````markdown
 # コミットメッセージ規約
 
 ## フォーマット
@@ -32,4 +31,3 @@ docs: ドキュメント更新 (<prefix>-17)
 merge: resolve conflict with <branch> (<prefix>-16)
 ```
 
-````

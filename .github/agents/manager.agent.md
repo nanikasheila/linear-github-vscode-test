@@ -1,7 +1,7 @@
 ---
 description: "マネージャーエージェントは、タスクの分解と各専門エージェントへの割り当てを行います。"
 tools: ["agent/runSubagent", "todo"]
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Opus 4.6 (copilot)
 ---
 
 # マネージャーエージェント

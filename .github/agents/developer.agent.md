@@ -1,7 +1,7 @@
 ---
 description: "開発エージェントは、コーディング・デバッグ・実装関連のタスクを支援します。"
 tools: ["vscode", "execute", "read", "edit", "search", "web", "todo"]
-model: Claude Sonnet 4.5 (copilot)
+model: Claude Sonnet 4.6 (copilot)
 ---
 
 # 開発エージェント

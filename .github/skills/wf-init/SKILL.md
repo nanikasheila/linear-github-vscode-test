@@ -55,6 +55,7 @@ URL から `owner` と `repo` を抽出する。
 | `project.name` | ✅ repo 名から | 「プロジェクト名は `<検出値>` でよいですか？」 |
 | `project.language` | ❌ | 「主要言語は？（javascript / typescript / python 等）」 |
 | `project.entryPoint` | ❌ | 「エントリーポイントは？（例: index.js, src/main.ts）」 |
+| `agents.model` | ❌ | 「エージェントのモデルは？（例: Claude Sonnet 4.5 (copilot)）」 |
 
 ### 4. settings.json の生成
 
@@ -82,11 +83,28 @@ URL から `owner` と `repo` を抽出する。
     "name": "<プロジェクト名>",
     "language": "<言語>",
     "entryPoint": "<エントリーポイント>"
+  },
+  "agents": {
+    "model": "<モデル名>"
   }
 }
 ```
 
-### 5. GitHub リポジトリ設定（任意）
+### 5. エージェントファイルの更新
+
+`agents.model` の値を全エージェントファイルの `model:` フロントマターに反映する:
+
+```
+.github/agents/*.agent.md の YAML frontmatter 内:
+  model: "<agents.model の値>"
+```
+
+対象ファイル:
+- `agents/developer.agent.md`
+- `agents/reviewer.agent.md`
+- `agents/manager.agent.md`
+
+### 6. GitHub リポジトリ設定（任意）
 
 `delete_branch_on_merge` を有効にするか確認:
 
@@ -95,7 +113,7 @@ mcp_io_github_git → リポジトリ設定の更新
   delete_branch_on_merge: true
 ```
 
-### 6. 完了メッセージ
+### 7. 完了メッセージ
 
 設定完了後、以下を表示:
 
@@ -106,6 +124,7 @@ mcp_io_github_git → リポジトリ設定の更新
 - GitHub: <owner>/<repo>
 - Issue トラッカー: <provider> (<team>)
 - ブランチ形式: <format>
+- エージェントモデル: <model>
 
 すべてのスキルがこの設定を参照して動作します。
 設定を変更する場合は .github/settings.json を直接編集してください。
@@ -128,6 +147,7 @@ mcp_io_github_git → リポジトリ設定の更新
 | `project.name` | string | ✅ | プロジェクト名 |
 | `project.language` | string | ❌ | 主要プログラミング言語 |
 | `project.entryPoint` | string | ❌ | エントリーポイントファイル |
+| `agents.model` | string | ✅ | エージェントが使用するモデル名（全エージェント共通） |
 
 ## Issue トラッカーが不要な場合
 

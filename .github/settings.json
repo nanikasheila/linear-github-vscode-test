@@ -19,5 +19,8 @@
     "name": "linear-github-vscode-test",
     "language": "javascript",
     "entryPoint": "index.js"
+  },
+  "agents": {
+    "model": "Claude Sonnet 4.5 (copilot)"
   }
 }

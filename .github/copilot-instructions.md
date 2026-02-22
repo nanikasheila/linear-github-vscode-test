@@ -14,6 +14,7 @@
 | `issueTracker` | Issue トラッカー設定（provider, team, prefix 等） |
 | `branch` | ブランチ命名設定（user, format） |
 | `project` | プロジェクト基本情報（name, language, entryPoint） |
+| `agents` | エージェント設定（model） |
 
 ## .github 4層構造
 

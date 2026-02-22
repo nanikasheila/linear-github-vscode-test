@@ -1,5 +1,5 @@
 ---
-name: nested-merge
+name: wf-nested-merge
 description: 入れ子ブランチ構造でサブブランチを親にマージし、最終的に main に統合する。サブ→親→main の順序マージを行うときに使用する。
 ---
 
@@ -25,19 +25,19 @@ git push origin <親フルブランチ名>
 
 ### 2. サブブランチの PR を作成
 
-各サブブランチに対して `submit-pr` スキルを使用。**base は親ブランチ**にする。
+各サブブランチに対して `wf-submit-pr` スキルを使用。**base は親ブランチ**にする。
 
 ### 3. サブ PR を順番にマージ
 
-1つ目のサブ PR をマージ → 2つ目以降でコンフリクトが起きたら `resolve-conflict` スキルで解消 → マージ。
+1つ目のサブ PR をマージ → 2つ目以降でコンフリクトが起きたら `wf-resolve-conflict` スキルで解消 → マージ。
 
 ### 4. 親ブランチ → main の PR を作成
 
-すべてのサブがマージされたら、`submit-pr` スキルで親 → main の PR を作成してマージ。
+すべてのサブがマージされたら、`wf-submit-pr` スキルで親 → main の PR を作成してマージ。
 
 ### 5. クリーンアップ
 
-`cleanup` スキルですべての worktree・ブランチ・Linear Issue を整理。
+`wf-cleanup` スキルですべての worktree・ブランチ・Issue を整理。
 
 ## フロー概要
 

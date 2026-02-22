@@ -1,6 +1,6 @@
 ````skill
 ---
-name: submit-pr
+name: wf-submit-pr
 description: 変更をコミットし、PR を作成してマージする。worktree での変更が完了した後に使用する。
 ---
 
@@ -64,6 +64,6 @@ mcp_io_github_git_merge_pull_request:
 
 ### 5. マージ失敗時（コンフリクト）
 
-コンフリクトが発生した場合は `resolve-conflict` スキルを使用する。
+コンフリクトが発生した場合は `wf-resolve-conflict` スキルを使用する。
 
 ````

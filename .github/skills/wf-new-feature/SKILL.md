@@ -1,6 +1,6 @@
 ````skill
 ---
-name: new-feature
+name: wf-new-feature
 description: Issue を作成し、ブランチと worktree を準備して新規作業を開始する。ユーザーが新しいタスクや機能の作業を始めたいときに使用する。
 ---
 

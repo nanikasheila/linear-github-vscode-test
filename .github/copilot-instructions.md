@@ -4,7 +4,7 @@
 ## プロジェクト設定
 
 プロジェクト固有の設定は `.github/settings.json` で管理する。
-新規プロジェクトでは `init` スキルを使って初期設定を行う。
+新規プロジェクトでは `wf-init` スキルを使って初期設定を行う。
 
 ### settings.json の構造
 
@@ -55,12 +55,12 @@
 
 | スキル | 用途 | 使うタイミング |
 |---|---|---|
-| `skills/init/` | プロジェクト初期設定 | `.github/` を新規プロジェクトに導入したとき |
-| `skills/new-feature/` | 新規作業開始 | Issue 作成 → ブランチ → worktree 準備 |
-| `skills/submit-pr/` | PR 提出・マージ | コミット → プッシュ → PR 作成 → マージ |
-| `skills/resolve-conflict/` | コンフリクト解消 | PR マージが失敗した場合 |
-| `skills/nested-merge/` | 入れ子マージ | サブ → 親 → main の順序マージ |
-| `skills/cleanup/` | クリーンアップ | マージ後の worktree・ブランチ・Issue 整理 |
+| `skills/wf-init/` | プロジェクト初期設定 | `.github/` を新規プロジェクトに導入したとき |
+| `skills/wf-new-feature/` | 新規作業開始 | Issue 作成 → ブランチ → worktree 準備 |
+| `skills/wf-submit-pr/` | PR 提出・マージ | コミット → プッシュ → PR 作成 → マージ |
+| `skills/wf-resolve-conflict/` | コンフリクト解消 | PR マージが失敗した場合 |
+| `skills/wf-nested-merge/` | 入れ子マージ | サブ → 親 → main の順序マージ |
+| `skills/wf-cleanup/` | クリーンアップ | マージ後の worktree・ブランチ・Issue 整理 |
 
 ## Agents（カスタムエージェント）
 

@@ -3,7 +3,7 @@
 ## プロジェクト
 
 すべての Issue は対象プロジェクトに紐付ける。
-プロジェクト固有の ID は `skills/new-feature/` スキル内で管理する。
+プロジェクト固有の ID は `skills/wf-new-feature/` スキル内で管理する。
 
 ## Issue ステータスの流れ
 
@@ -26,5 +26,5 @@
 
 具体的な操作手順は以下のスキルを参照:
 
-- Issue 作成: `skills/new-feature/`
-- ステータス更新: `skills/cleanup/`
+- Issue 作成: `skills/wf-new-feature/`
+- ステータス更新: `skills/wf-cleanup/`

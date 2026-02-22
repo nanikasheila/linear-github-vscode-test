@@ -1,6 +1,6 @@
 ````skill
 ---
-name: resolve-conflict
+name: wf-resolve-conflict
 description: PR マージ時のコンフリクトを解消する。マージが 405 エラーで失敗した場合に使用する。
 ---
 

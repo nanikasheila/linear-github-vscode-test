@@ -12,5 +12,5 @@
 
 具体的な操作手順は以下のスキルを参照:
 
-- 作成: `skills/new-feature/`
-- 削除: `skills/cleanup/`
+- 作成: `skills/wf-new-feature/`
+- 削除: `skills/wf-cleanup/`

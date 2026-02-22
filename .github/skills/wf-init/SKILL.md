@@ -55,6 +55,9 @@ URL から `owner` と `repo` を抽出する。
 | `project.name` | ✅ repo 名から | 「プロジェクト名は `<検出値>` でよいですか？」 |
 | `project.language` | ❌ | 「主要言語は？（javascript / typescript / python 等）」 |
 | `project.entryPoint` | ❌ | 「エントリーポイントは？（例: index.js, src/main.ts）」 |
+| `project.test.command` | ❌ | 「テストコマンドは？（例: node --test, npm test, pytest）」 |
+| `project.test.directory` | ❌ | 「テストディレクトリは？（例: tests/, __tests__/）」 |
+| `project.test.pattern` | ❌ | 「テストファイルのパターンは？（例: *.test.js, test_*.py）」 |
 | `agents.model` | ❌ | 「エージェントのモデルは？（例: Claude Sonnet 4.5 (copilot)）」 |
 
 ### 4. settings.json の生成
@@ -63,6 +66,7 @@ URL から `owner` と `repo` を抽出する。
 
 ```json
 {
+  "$schema": "./settings.schema.json",
   "github": {
     "owner": "<owner>",
     "repo": "<repo>",
@@ -82,7 +86,12 @@ URL から `owner` と `repo` を抽出する。
   "project": {
     "name": "<プロジェクト名>",
     "language": "<言語>",
-    "entryPoint": "<エントリーポイント>"
+    "entryPoint": "<エントリーポイント>",
+    "test": {
+      "command": "<テストコマンド>",
+      "directory": "<テストディレクトリ>",
+      "pattern": "<テストファイルパターン>"
+    }
   },
   "agents": {
     "model": "<モデル名>"
@@ -132,22 +141,28 @@ mcp_io_github_git → リポジトリ設定の更新
 
 ## settings.json スキーマ
 
+正式なスキーマは `.github/settings.schema.json` に定義されている。
+settings.json の先頭に `"$schema": "./settings.schema.json"` を含めると VS Code で自動補完・バリデーションが有効になる。
+
 | キー | 型 | 必須 | 説明 |
 |---|---|---|---|
 | `github.owner` | string | ✅ | GitHub リポジトリのオーナー |
 | `github.repo` | string | ✅ | GitHub リポジトリ名 |
 | `github.mergeMethod` | string | ✅ | マージ方式（`merge` / `squash` / `rebase`） |
-| `issueTracker.provider` | string | ✅ | Issue トラッカー種別 |
-| `issueTracker.mcpServer` | string | ⚠️ | MCP サーバー名（provider が `none` 以外の場合必須） |
-| `issueTracker.team` | string | ⚠️ | チーム名（provider が `none` 以外の場合必須） |
+| `issueTracker.provider` | string | オプション | Issue トラッカー種別（`linear` / `github` / `jira` / `none`） |
+| `issueTracker.mcpServer` | string | ⚠️ | MCP サーバー名（provider が `none` 以外の場合必要） |
+| `issueTracker.team` | string | ⚠️ | チーム名（provider が `none` 以外の場合必要） |
 | `issueTracker.projectId` | string | ❌ | プロジェクト ID（任意） |
-| `issueTracker.prefix` | string | ⚠️ | Issue プレフィックス（provider が `none` 以外の場合必須） |
+| `issueTracker.prefix` | string | ⚠️ | Issue プレフィックス（provider が `none` 以外の場合必要） |
 | `branch.user` | string | ✅ | ブランチ名のユーザー部分 |
 | `branch.format` | string | ✅ | ブランチ名のフォーマット |
 | `project.name` | string | ✅ | プロジェクト名 |
-| `project.language` | string | ❌ | 主要プログラミング言語 |
+| `project.language` | string | ✅ | 主要プログラミング言語 |
 | `project.entryPoint` | string | ❌ | エントリーポイントファイル |
-| `agents.model` | string | ✅ | エージェントが使用するモデル名（全エージェント共通） |
+| `project.test.command` | string | ❌ | テスト実行コマンド（例: `node --test`, `pytest`） |
+| `project.test.directory` | string | ❌ | テストディレクトリ（例: `tests/`） |
+| `project.test.pattern` | string | ❌ | テストファイルパターン（例: `*.test.js`） |
+| `agents.model` | string | ❌ | エージェントが使用するモデル名（全エージェント共通） |
 
 ## Issue トラッカーが不要な場合
 

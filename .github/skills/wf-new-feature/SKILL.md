@@ -53,13 +53,17 @@ mcp_<issueTracker.mcpServer>_create_issue:
 `branch.format` に従ってブランチ名を組み立てる:
 
 ```bash
+# Issue トラッカー利用時:
 git branch <user>/<prefix>-<番号>-<type>-<説明>
+
+# Issue トラッカー未使用時（provider: "none"）:
+git branch <user>/<type>-<説明>
 ```
 
 ### 3. Worktree を作成
 
 ```bash
-git worktree add .worktrees/<prefix>-<番号>-<type>-<説明> <user>/<prefix>-<番号>-<type>-<説明>
+git worktree add .worktrees/<ブランチ名（user/ を除いた部分）> <フルブランチ名>
 ```
 
 > **ブランチ/worktree が既に存在する場合**: `git branch` や `git worktree add` がエラーになったら、`git branch -l` / `git worktree list` で既存の状態を確認し、不要なら削除してからリトライする。

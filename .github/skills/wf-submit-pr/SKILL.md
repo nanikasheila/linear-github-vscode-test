@@ -66,4 +66,13 @@ mcp_io_github_git_merge_pull_request:
 
 コンフリクトが発生した場合は `wf-resolve-conflict` スキルを使用する。
 
+## エラー時の対処
+
+| エラー | 対処 |
+|---|---|
+| `git push` 失敗（リモートが先行） | `git pull --rebase origin <ブランチ>` 後に再プッシュ |
+| PR 作成失敗（ブランチが存在しない） | プッシュが成功しているか確認 |
+| マージ失敗（405 Not Mergeable） | `wf-resolve-conflict` スキルを使用 |
+| マージ失敗（その他エラー） | PR の状態を確認し、必要に応じて再作成 |
+
 ````

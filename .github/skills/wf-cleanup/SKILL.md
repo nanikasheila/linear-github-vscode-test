@@ -15,7 +15,7 @@ PR マージ後に worktree、ローカルブランチ、Issue を整理する�
 ## 入力
 
 - 対象ブランチ名（複数可）
-- Issue ID（複数可）
+- Issue UUID（複数可）— `wf-new-feature` で記録した `id`（UUID）を使用する
 
 ## 手順
 
@@ -56,7 +56,7 @@ git pull origin main
 
 ```
 mcp_<issueTracker.mcpServer>_update_issue:
-  id: "<prefix>-<番号>"
+  id: "<UUID>"       # wf-new-feature で記録した id（UUID）を使用。identifier ではない
   state: "Done"
 ```
 
@@ -86,5 +86,13 @@ git branch -r --merged main | grep 'origin/' | grep -v 'main' | \
 git branch --merged main | grep -v 'main' | xargs git branch -D
 git fetch --prune
 ```
+
+## エラー時の対処
+
+| エラー | 対処 |
+|---|---|
+| `git worktree remove` 失敗（未コミットの変更あり） | `--force` を付与するか、先に変更を退避 |
+| `git branch -D` 失敗（worktree が残っている） | 先に worktree を削除する |
+| Issue 更新失敗（UUID 不明） | `mcp_<mcpServer>_list_issues` で検索して UUID を特定 |
 
 ````

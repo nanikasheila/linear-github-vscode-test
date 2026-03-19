@@ -1,0 +1,550 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Board Artifacts",
+  "description": "Board の artifact 定義。各エージェントが出力する成果物のスキーマ。board.schema.json から $ref で参照される。",
+
+  "definitions": {
+    "artifact_impact_analysis": {
+      "type": "object",
+      "description": "impact-analyst が出力する影響分析",
+      "required": ["affected_files", "api_compatibility", "test_impact", "escalation"],
+      "properties": {
+        "affected_files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "影響を受けるファイルパス一覧"
+        },
+        "api_compatibility": {
+          "type": "string",
+          "enum": ["compatible", "breaking"],
+          "description": "API 互換性の判定"
+        },
+        "test_impact": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "影響を受けるテストファイル一覧"
+        },
+        "escalation": {
+          "type": "object",
+          "required": ["required", "reason"],
+          "properties": {
+            "required": { "type": "boolean" },
+            "reason": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_architecture_decision": {
+      "type": "object",
+      "description": "architect が出力する構造評価・配置判断",
+      "required": ["placement", "rationale"],
+      "properties": {
+        "placement": {
+          "type": "object",
+          "description": "配置判断",
+          "properties": {
+            "layer": { "type": "string", "description": "所属層" },
+            "directory": { "type": "string", "description": "配置先ディレクトリ" },
+            "rate_of_change": { "type": "string", "description": "想定される変化速度" },
+            "dependencies": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "依存先モジュール"
+            },
+            "dependents_allowed": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "依存を許可する層"
+            }
+          },
+          "additionalProperties": false
+        },
+        "rationale": { "type": "string", "description": "判断の根拠" },
+        "adr_id": { "type": "string", "description": "関連する ADR 番号（例: ADR-001）" },
+        "risks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "構造的リスク"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_execution_plan": {
+      "type": "object",
+      "description": "planner が出力する実行計画",
+      "required": ["tasks"],
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "description", "agent"],
+            "properties": {
+              "id": { "type": "integer" },
+              "description": { "type": "string" },
+              "agent": { "type": "string", "enum": ["developer", "reviewer", "architect", "writer", "analyst", "impact-analyst", "planner", "test-designer", "test-verifier", "assessor"] },
+              "depends_on": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "依存するタスク ID"
+              },
+              "input": { "type": "string", "description": "タスクの入力情報" },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed", "skipped"],
+                "default": "pending"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "risks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "リスク・注意点"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_implementation": {
+      "type": "object",
+      "description": "developer が出力する実装結果",
+      "required": ["changed_files"],
+      "properties": {
+        "changed_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "action"],
+            "properties": {
+              "path": { "type": "string" },
+              "action": { "type": "string", "enum": ["created", "modified", "deleted"] },
+              "summary": { "type": "string", "description": "変更概要" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "public_api": {
+          "type": "array",
+          "description": "公開関数・クラスのシグネチャ一覧。writer がドキュメントを正確に書くために必須",
+          "items": { "$ref": "#/definitions/api_signature" }
+        },
+        "commit_sha": { "type": "string", "description": "コミットハッシュ" },
+        "summary": { "type": "string", "description": "実装概要" }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_test_results": {
+      "type": "object",
+      "description": "developer が出力するテスト結果",
+      "required": ["command", "exit_code", "total", "passed"],
+      "properties": {
+        "command": { "type": "string", "description": "実行したテストコマンド" },
+        "exit_code": { "type": "integer" },
+        "total": { "type": "integer", "description": "テスト総数" },
+        "passed": { "type": "integer", "description": "成功数" },
+        "failed": { "type": "integer", "description": "失敗数" },
+        "skipped": { "type": "integer", "description": "スキップ数" },
+        "coverage": { "type": "number", "description": "カバレッジ（%）", "minimum": 0, "maximum": 100 },
+        "failures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "test_name": { "type": "string" },
+              "message": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "description": "失敗したテストの詳細"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_review_finding": {
+      "type": "object",
+      "description": "reviewer が出力するレビュー結果（試行ごと）",
+      "required": ["attempt", "verdict", "timestamp"],
+      "properties": {
+        "attempt": { "type": "integer", "description": "レビュー試行番号", "minimum": 1 },
+        "verdict": {
+          "type": "string",
+          "enum": ["lgtm", "fix_required"],
+          "description": "総合判定"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["severity", "file", "description"],
+            "properties": {
+              "severity": { "type": "string", "enum": ["critical", "warning", "security", "info"] },
+              "file": { "type": "string" },
+              "line": { "type": "integer" },
+              "description": { "type": "string" },
+              "fix_instruction": { "type": "string", "description": "developer 向けの修正指示" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "checks_performed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "実施したレビュー観点（例: logic, security_basic, architecture）"
+        },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_documentation": {
+      "type": "object",
+      "description": "writer が出力するドキュメント更新結果",
+      "required": ["files"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "action", "summary"],
+            "properties": {
+              "path": { "type": "string" },
+              "action": { "type": "string", "enum": ["created", "updated"] },
+              "summary": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_requirements_development": {
+      "type": "object",
+      "description": "requirements-engineer が出力する要求開発結果。ユーザーの要望から検証済み要求への変換記録",
+      "required": ["original_wish", "problem_statement", "validated_needs", "scope_boundary", "approval"],
+      "properties": {
+        "original_wish": {
+          "type": "string",
+          "description": "ユーザーの元の要望（原文保存）"
+        },
+        "problem_statement": {
+          "type": "string",
+          "description": "本質的な問題の定義（Why を明確化）"
+        },
+        "validated_needs": {
+          "type": "array",
+          "description": "検証済みニーズの一覧",
+          "items": {
+            "type": "object",
+            "required": ["id", "description", "rationale", "priority"],
+            "properties": {
+              "id": { "type": "string", "description": "ニーズ ID（例: NEED-001）" },
+              "description": { "type": "string", "description": "検証済みニーズの説明" },
+              "rationale": { "type": "string", "description": "なぜこれが必要か（根拠）" },
+              "priority": {
+                "type": "string",
+                "enum": ["must", "should", "could", "wont"],
+                "description": "MoSCoW 法による優先度"
+              },
+              "conflicts": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "競合する既存要求（あれば）"
+              },
+              "alignment": {
+                "type": "string",
+                "description": "設計哲学との整合性メモ"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "alternatives_considered": {
+          "type": "array",
+          "description": "検討した代替案（不採用含む）",
+          "items": {
+            "type": "object",
+            "required": ["description", "reason_rejected"],
+            "properties": {
+              "description": { "type": "string", "description": "代替案の説明" },
+              "reason_rejected": { "type": "string", "description": "不採用理由" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "scope_boundary": {
+          "type": "object",
+          "description": "スコープ境界の定義",
+          "required": ["in_scope", "out_of_scope"],
+          "properties": {
+            "in_scope": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "スコープ内の項目"
+            },
+            "out_of_scope": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "スコープ外の項目"
+            },
+            "deferred": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "将来対応とする項目"
+            }
+          },
+          "additionalProperties": false
+        },
+        "approval": {
+          "type": "object",
+          "description": "ユーザー承認の状態",
+          "required": ["status"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["pending", "approved", "rejected", "needs_revision"],
+              "description": "承認状態"
+            },
+            "revision_notes": {
+              "type": "string",
+              "description": "修正要求メモ（needs_revision 時）"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_requirements": {
+      "type": "object",
+      "description": "analyst が出力する要求分析結果（USDM 準拠の構造化要件）",
+      "required": ["summary", "functional_requirements"],
+      "properties": {
+        "summary": { "type": "string", "description": "要求の概要（1-2文）" },
+        "functional_requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "description", "priority"],
+            "properties": {
+              "id": { "type": "string", "description": "要求 ID（例: FR-001）" },
+              "description": { "type": "string", "description": "機能の説明" },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "受け入れ基準（例: AC-001: 具体的な検証条件）"
+              },
+              "priority": { "type": "string", "enum": ["must", "should", "could"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "non_functional_requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "category", "description"],
+            "properties": {
+              "id": { "type": "string", "description": "要求 ID（例: NFR-001）" },
+              "category": { "type": "string", "enum": ["performance", "security", "compatibility", "usability"] },
+              "description": { "type": "string" },
+              "metric": { "type": "string", "description": "計測可能な基準" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "edge_cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "scenario", "expected_behavior"],
+            "properties": {
+              "id": { "type": "string", "description": "エッジケース ID（例: EC-001）" },
+              "scenario": { "type": "string" },
+              "expected_behavior": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "前提条件のリスト"
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "スコープ外の明示"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_test_design": {
+      "type": "object",
+      "description": "test-designer が出力するテストケース設計",
+      "required": ["summary", "test_cases", "coverage_matrix"],
+      "properties": {
+        "summary": { "type": "string", "description": "テスト設計の概要" },
+        "test_strategy": { "type": "string", "description": "テスト戦略の説明" },
+        "test_cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "category", "requirement_ref", "description", "expected_output", "priority"],
+            "properties": {
+              "id": { "type": "string", "description": "テストケース ID（例: TC-001）" },
+              "category": { "type": "string", "enum": ["happy_path", "boundary", "error", "edge_case", "regression", "security"] },
+              "requirement_ref": { "type": "string", "description": "対応する要求 ID（例: FR-001 / AC-001）" },
+              "description": { "type": "string" },
+              "preconditions": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "input": { "type": "string", "description": "入力データ・操作" },
+              "expected_output": { "type": "string", "description": "期待される出力・状態" },
+              "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "coverage_matrix": {
+          "type": "object",
+          "description": "要求 ID → テストケース ID のマッピング",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "test_infrastructure": {
+          "type": "object",
+          "description": "テストインフラの情報",
+          "properties": {
+            "new_fixtures_needed": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "existing_helpers": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "artifact_test_verification": {
+      "type": "object",
+      "description": "test-verifier が出力するテスト検証結果",
+      "required": ["summary", "verdict"],
+      "properties": {
+        "summary": { "type": "string", "description": "テスト検証の概要" },
+        "verdict": {
+          "type": "string",
+          "enum": ["pass", "fail", "conditional_pass"],
+          "description": "総合判定"
+        },
+        "test_execution": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer" },
+            "passed": { "type": "integer" },
+            "failed": { "type": "integer" },
+            "skipped": { "type": "integer" },
+            "execution_time": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "line_coverage": { "type": "string" },
+            "branch_coverage": { "type": "string" },
+            "meets_requirement": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "traceability": {
+          "type": "object",
+          "description": "テストケース設計 vs 実装のトレーサビリティ",
+          "properties": {
+            "designed": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "設計されたテストケース ID"
+            },
+            "implemented": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "実装されたテストケース ID"
+            },
+            "missing": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "未実装のテストケース ID"
+            },
+            "coverage_rate": { "type": "string", "description": "テストケースカバレッジ率" }
+          },
+          "additionalProperties": false
+        },
+        "quality_issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description", "severity"],
+            "properties": {
+              "type": { "type": "string", "enum": ["missing_test", "weak_assertion", "false_positive", "flaky"] },
+              "description": { "type": "string" },
+              "test_case_ref": { "type": "string" },
+              "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "regression": {
+          "type": "object",
+          "properties": {
+            "all_passed": { "type": "boolean" },
+            "failures": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "api_signature": {
+      "type": "object",
+      "description": "公開関数・クラスのシグネチャ情報",
+      "required": ["name", "file", "signature"],
+      "properties": {
+        "name": { "type": "string", "description": "関数・クラス名" },
+        "file": { "type": "string", "description": "定義ファイルパス" },
+        "signature": { "type": "string", "description": "完全なシグネチャ（引数名・型・デフォルト値を含む）" },
+        "returns": { "type": "string", "description": "戻り値の型と説明" },
+        "raises": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "発生しうる例外・エラーの型名と条件"
+        },
+        "description": { "type": "string", "description": "関数・クラスの簡潔な説明" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

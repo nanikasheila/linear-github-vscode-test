@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gate Profiles",
+  "description": "Maturity レベルごとの Gate 通過条件を宣言的に定義する。各 Gate の厳格さは maturity に連動する。",
+  "type": "object",
+  "required": ["profiles"],
+  "properties": {
+    "profiles": {
+      "type": "object",
+      "description": "Maturity レベルごとの Gate Profile 定義",
+      "properties": {
+        "experimental": { "$ref": "#/definitions/gate_profile" },
+        "development":  { "$ref": "#/definitions/gate_profile" },
+        "stable":       { "$ref": "#/definitions/gate_profile" },
+        "release-ready": { "$ref": "#/definitions/gate_profile" },
+        "sandbox":      { "$ref": "#/definitions/gate_profile" }
+      },
+      "required": ["experimental", "development", "stable", "release-ready", "sandbox"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+
+  "definitions": {
+    "gate_profile": {
+      "type": "object",
+      "description": "1つの Maturity レベルに対する全 Gate の条件定義",
+      "properties": {
+        "analysis_gate":       { "$ref": "#/definitions/gate_condition" },
+        "design_gate":         { "$ref": "#/definitions/gate_condition" },
+        "plan_gate":           { "$ref": "#/definitions/gate_condition" },
+        "implementation_gate": { "$ref": "#/definitions/gate_condition" },
+        "test_gate":           { "$ref": "#/definitions/test_gate_condition" },
+        "validation_gate":     { "$ref": "#/definitions/validation_gate_condition" },
+        "review_gate":         { "$ref": "#/definitions/review_gate_condition" },
+        "documentation_gate":  { "$ref": "#/definitions/gate_condition" },
+        "submit_gate":         { "$ref": "#/definitions/gate_condition" }
+      },
+      "additionalProperties": false
+    },
+
+    "gate_condition": {
+      "type": "object",
+      "description": "汎用 Gate 条件",
+      "required": ["required"],
+      "properties": {
+        "required": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "string", "enum": ["on_escalation", "blocked"] }
+          ],
+          "description": "Gate が必須かどうか。on_escalation の場合、escalation_condition に合致した時のみ必須。blocked の場合、構造的に通過不可能（sandbox の submit_gate 等）"
+        },
+        "escalation_condition": {
+          "type": "string",
+          "description": "required が on_escalation の場合の評価条件。Board の artifacts を参照する条件式を自然言語で記述する"
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["commit_sha", "test_output", "build_success", "lint_pass", "review_verdict", "coverage_report", "validation_report"]
+          },
+          "description": "Gate 通過に必要なエビデンスの種別。evaluate-gate.ps1 が Board の artifacts から検証する"
+        },
+        "automated_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string", "description": "チェック名" },
+              "type": {
+                "type": "string",
+                "enum": ["build", "test", "lint", "custom"],
+                "description": "チェック種別"
+              },
+              "command": { "type": "string", "description": "実行コマンド（settings.json から解決する場合は省略可）" },
+              "required": { "type": "boolean", "default": true, "description": "このチェックが必須かどうか" }
+            },
+            "additionalProperties": false
+          },
+          "description": "Gate 通過前に自動実行するチェック。settings.json の project.test/project.build コマンドを参照"
+        },
+        "description": {
+          "type": "string",
+          "description": "この Gate 条件の説明"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "test_gate_condition": {
+      "type": "object",
+      "description": "テスト Gate 固有の条件",
+      "required": ["required"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "pass_rate": {
+          "type": "integer",
+          "description": "要求するテスト成功率（%）",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "coverage_min": {
+          "type": "integer",
+          "description": "要求する最低カバレッジ（%）",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "regression_required": {
+          "type": "boolean",
+          "description": "回帰テストを必須とするか",
+          "default": false
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["commit_sha", "test_output", "build_success", "lint_pass", "review_verdict", "coverage_report", "validation_report"]
+          },
+          "description": "Gate 通過に必要なエビデンスの種別。evaluate-gate.ps1 が Board の artifacts から検証する"
+        },
+        "automated_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string", "description": "チェック名" },
+              "type": {
+                "type": "string",
+                "enum": ["build", "test", "lint", "custom"],
+                "description": "チェック種別"
+              },
+              "command": { "type": "string", "description": "実行コマンド（settings.json から解決する場合は省略可）" },
+              "required": { "type": "boolean", "default": true, "description": "このチェックが必須かどうか" }
+            },
+            "additionalProperties": false
+          },
+          "description": "Gate 通過前に自動実行するチェック。settings.json の project.test/project.build コマンドを参照"
+        },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "review_gate_condition": {
+      "type": "object",
+      "description": "レビュー Gate 固有の条件",
+      "required": ["required"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "logic",
+              "security_basic",
+              "security_deep",
+              "architecture",
+              "performance",
+              "test_quality"
+            ]
+          },
+          "description": "必須のレビュー観点"
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["commit_sha", "test_output", "build_success", "lint_pass", "review_verdict", "coverage_report", "validation_report"]
+          },
+          "description": "Gate 通過に必要なエビデンスの種別。evaluate-gate.ps1 が Board の artifacts から検証する"
+        },
+        "automated_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string", "description": "チェック名" },
+              "type": {
+                "type": "string",
+                "enum": ["build", "test", "lint", "custom"],
+                "description": "チェック種別"
+              },
+              "command": { "type": "string", "description": "実行コマンド（settings.json から解決する場合は省略可）" },
+              "required": { "type": "boolean", "default": true, "description": "このチェックが必須かどうか" }
+            },
+            "additionalProperties": false
+          },
+          "description": "Gate 通過前に自動実行するチェック。settings.json の project.test/project.build コマンドを参照"
+        },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "validation_gate_condition": {
+      "type": "object",
+      "description": "妥当性確認 Gate 固有の条件。受け入れ基準（AC）の充足を判定する",
+      "required": ["required"],
+      "properties": {
+        "required": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "string", "enum": ["on_escalation"] }
+          ]
+        },
+        "satisfaction_rate_min": {
+          "type": "integer",
+          "description": "要求する最低 AC 充足率（%）",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["commit_sha", "test_output", "build_success", "lint_pass", "review_verdict", "coverage_report", "validation_report"]
+          },
+          "description": "Gate 通過に必要なエビデンスの種別"
+        },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
